@@ -1,0 +1,75 @@
+
+name: Clean duplicate root files
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Delete duplicate files
+        run: |
+          git rm --ignore-unmatch -- \
+            App.jsx \
+            App.css \
+            index.css \
+            login.jsx \
+            login.css \
+            avi-black.jpg \
+            avi-blue.jpg \
+            avia-blue.png \
+            bbl.jpg \
+            casi-black.jpg \
+            casi-blue.jpg \
+            hero.png \
+            inplay.jpg \
+            ipl.png \
+            live-cricket.jpg \
+            offer-aviator.png \
+            offer-first-deposit.png \
+            offer-free-coins.png \
+            promo-aviator.png \
+            promo-bonus.png \
+            promo-casino.png \
+            quick-aviator.png \
+            quick-history.png \
+            quick-ledger.png \
+            quick-live-casino.png \
+            quick-live-sport.png \
+            quick-more.png \
+            quick-password.png \
+            quick-profile.png \
+            quick-rules.png \
+            quick-statement.png \
+            quick-support.png \
+            quick-update.png \
+            sport-cricket.png \
+            sport-esports.png \
+            sport-horse-racing.png \
+            sport-soccer.png \
+            sport-tennis.png \
+            sport-wl26.png \
+            sport-wv.png \
+            withdrawal-banner.png \
+            zee99-logo.png
+
+      - name: Commit and push cleanup
+        run: |
+          if git diff --cached --quiet; then
+            echo "No duplicate files found."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Remove duplicate root files"
+            git push origin HEAD:master
+          fi
